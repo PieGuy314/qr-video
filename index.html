@@ -9,45 +9,41 @@
     body {
       margin: 0;
       background: black;
-      overflow: hidden;
       height: 100vh;
+      overflow: hidden;
+      font-family: sans-serif;
     }
 
     .container {
       position: relative;
       width: 100%;
       height: 100vh;
+      background: black;
     }
 
     video {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      display: none; /* 🔥 hidden until user taps */
       background: black;
-      display: block;
     }
 
-    /* IMPORTANT: force overlay above video */
     #overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
 
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.75);
       color: white;
       font-size: 24px;
-      font-family: sans-serif;
+      text-align: center;
 
       cursor: pointer;
       user-select: none;
-
-      z-index: 9999; /* 🔥 this fixes the visibility issue */
+      z-index: 9999;
     }
 
     #overlay.hidden {
@@ -60,12 +56,12 @@
 
   <div class="container">
 
-    <video autoplay muted playsinline preload="auto">
+    <video playsinline controls>
       <source src="video.mp4" type="video/mp4" />
     </video>
 
     <div id="overlay">
-      Tap to enable sound 🔊
+      Tap to play video ▶️
     </div>
 
   </div>
@@ -74,14 +70,16 @@
     const video = document.querySelector("video");
     const overlay = document.getElementById("overlay");
 
-    window.addEventListener("load", () => {
-      video.play().catch(() => {});
-    });
-
-    overlay.addEventListener("click", () => {
-      video.muted = false;
-      video.play();
+    overlay.addEventListener("click", async () => {
       overlay.classList.add("hidden");
+
+      video.style.display = "block";
+
+      try {
+        await video.play();
+      } catch (e) {
+        console.log("Playback failed:", e);
+      }
     });
   </script>
 
