@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video</title>
+
+  <style>
+    /* Fullscreen clean layout */
+    body {
+      margin: 0;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* use "cover" if you want edge-to-edge crop */
+      background: black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <video autoplay muted playsinline preload="auto">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    window.addEventListener("load", () => {
+      const video = document.querySelector("video");
+
+      video.play().catch(() => {
+        // Autoplay may still be blocked; iOS will often allow after interaction
+      });
+    });
+</script>
+</body>
+
+</html>
